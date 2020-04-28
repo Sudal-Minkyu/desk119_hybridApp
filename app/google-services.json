@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "242485137334",
+    "firebase_url": "https://broadwave-fcm.firebaseio.com",
+    "project_id": "broadwave-fcm",
+    "storage_bucket": "broadwave-fcm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242485137334:android:8c248a5c03b32a4e493b17",
+        "android_client_info": {
+          "package_name": "kr.co.broadwave.kict119"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242485137334-4i40kcqsn4l759cmdbjmpj5gqol58pqp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.co.broadwave.kict119",
+            "certificate_hash": "f21b34be5e694edfa8cceb01b927e7c3bcde4566"
+          }
+        },
+        {
+          "client_id": "242485137334-lnvrc7s8los2qhdqo68vfi92tmb31bfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI9DEC1zCfQl475o9g1G8RXa2xrQbrr1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242485137334-lnvrc7s8los2qhdqo68vfi92tmb31bfs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
