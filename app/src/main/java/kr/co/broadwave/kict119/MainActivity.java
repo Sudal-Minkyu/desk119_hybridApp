@@ -1,38 +1,23 @@
 package kr.co.broadwave.kict119;
 
 import android.app.DownloadManager;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-
-import java.io.File;
 
 /**
  * @author Minkyu
@@ -49,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mWebView.getUrl().equals("고정아이피")) {  //현재접속되있는 페이지의 url을 가져온다.
+        if (mWebView.getUrl().equals("http://192.168.0.131:8080")) {  //현재접속되있는 페이지의 url을 가져온다.
             backPressCloseHandler.onBackPressed();
         }else{
             mWebView.goBack();
@@ -148,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
         });
 
-        mWebView.loadUrl("고정아이피");
+        mWebView.loadUrl("http://192.168.0.131:8080");
 
     }
 

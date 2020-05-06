@@ -1,8 +1,7 @@
 package kr.co.broadwave.kict119;
+
 import android.app.Activity;
 import android.widget.Toast;
-
-import androidx.core.widget.TextViewCompat;
 
 /**
  * @author Minkyu

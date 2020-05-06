@@ -1,6 +1,5 @@
 package kr.co.broadwave.kict119;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
