@@ -22,6 +22,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         Log.d("FCM Log","Refreshed token: "+ token);
     }
 
+    //FCL Log
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage){
         if(remoteMessage.getNotification() != null){
