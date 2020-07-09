@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //        Log.i(this.getClass().getName(),mWebView.getUrl()); //로그찍기
-        if (mWebView.getUrl().equals("http://192.168.0.131:8080/")) {  //현재접속되있는 페이지의 url을 가져온다.
+        if (mWebView.getUrl().equals("http://192.168.0.136:8080/")) {  //현재접속되있는 페이지의 url을 가져온다.
             backPressCloseHandler.onBackPressed();
         }else{
             mWebView.goBack();
@@ -113,9 +113,8 @@ public class MainActivity extends AppCompatActivity {
         // 각종 권한 획득
         checkVerify();
 
-        WebSettings mWebSettings = mWebView.getSettings();
-        mWebSettings.setJavaScriptEnabled(true); //자바스크립트 허용
-
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 //        String token = FirebaseInstanceId.getInstance().getToken();
 //        Log.d("FCM Log","Refreshed token: "+ token);
 
@@ -136,13 +135,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // For Android 3.0+
-            public void openFileChooser( ValueCallback<Uri> uploadMsg, String acceptType) {
+            void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
                 MainActivity m_oInstance = null;
                 m_oInstance.filePathCallbackNormal = uploadMsg;
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_OPENABLE);
                 i.setType("image/*");
-                m_oInstance.startActivityForResult(Intent.createChooser(i, "File Chooser"), m_oInstance.FILECHOOSER_NORMAL_REQ_CODE);
+                m_oInstance.startActivityForResult(Intent.createChooser(i, "File Chooser"), FILECHOOSER_NORMAL_REQ_CODE);
             }
 
             // For Android 4.1+
