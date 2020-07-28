@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //        Log.i(this.getClass().getName(),mWebView.getUrl()); //로그찍기
-        if (mWebView.getUrl().equals("http://192.168.0.136:8080/")) {  //현재접속되있는 페이지의 url을 가져온다.
+//        if (mWebView.getUrl().equals("http://192.168.0.136:8080/")) {  //현재접속되있는 페이지의 url을 가져온다.
+        if (mWebView.getUrl().equals("https://kict119.broadwave.co.kr/")) {  //현재접속되있는 페이지의 url을 가져온다.
             backPressCloseHandler.onBackPressed();
         }else{
             mWebView.goBack();
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
         });
 
-        mWebView.loadUrl("http://192.168.0.136:8080");
+        mWebView.loadUrl("https://kict119.broadwave.co.kr");
 
     }
 
