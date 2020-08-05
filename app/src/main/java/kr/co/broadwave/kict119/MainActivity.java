@@ -11,9 +11,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
@@ -53,17 +53,19 @@ public class MainActivity extends AppCompatActivity {
     private WebView mWebView;
     private TextView errorVeiw;
 
+    // 뒤로가기 두번클릭시 앱종료 함수
     @Override
     public void onBackPressed() {
 //        Log.i(this.getClass().getName(),mWebView.getUrl()); //로그찍기
-//        if (mWebView.getUrl().equals("http://192.168.0.136:8080/")) {  //현재접속되있는 페이지의 url을 가져온다.
-        if (mWebView.getUrl().equals("https://kict119.broadwave.co.kr/")) {  //현재접속되있는 페이지의 url을 가져온다.
+        if (mWebView.getUrl().equals("http://192.168.0.136:8080/")) {  //현재접속되있는 페이지의 url을 가져온다.
+//        if (mWebView.getUrl().equals("https://kict119.broadwave.co.kr/")) {  //현재접속되있는 페이지의 url을 가져온다.
             backPressCloseHandler.onBackPressed();
         }else{
             mWebView.goBack();
         }
     }
 
+    // 카메라부르기 함수
     private void runCamera(boolean _isCapture) {
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -72,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(path, "스마트폰촬영사진.png");
         // File 객체의 URI 를 얻는다.
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            String strpa = getApplicationContext().getPackageName();
             cameraImageUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
         }else{
             cameraImageUri = Uri.fromFile(file);
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
-        errorVeiw = findViewById(R.id.net_error_view);
+        // errorVeiw = findViewById(R.id.net_error_view);
         mWebView = findViewById(R.id.activity_main_webview);
 
         // 각종 권한 획득
@@ -116,11 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-//        String token = FirebaseInstanceId.getInstance().getToken();
-//        Log.d("FCM Log","Refreshed token: "+ token);
 
-        // WebView의 setWebChromeClient 셋팅 및 Input 선택기 구현
-
+        // 카메라 권한얻기
         String permission = Manifest.permission.CAMERA;
         int grant = ContextCompat.checkSelfPermission(this, permission);
         if (grant != PackageManager.PERMISSION_GRANTED) {
@@ -129,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, permission_list, 1);
         }
 
+        // WebView의 setWebChromeClient 셋팅 및 Input 선택기 구현
         mWebView.setWebChromeClient(new WebChromeClient() {
             // For Android < 3.0
             public void openFileChooser( ValueCallback<Uri> uploadMsg) {
@@ -167,8 +166,10 @@ public class MainActivity extends AppCompatActivity {
                 runCamera(isCapture);
                 return true;
             }
+
         });
 
+        // 가이드라인 다운로드
         mWebView.setDownloadListener (new DownloadListener()  {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
@@ -241,8 +242,8 @@ public class MainActivity extends AppCompatActivity {
 //            }
         });
 
-        mWebView.loadUrl("https://kict119.broadwave.co.kr");
-
+//        mWebView.loadUrl("https://kict119.broadwave.co.kr");
+        mWebView.loadUrl(" http://192.168.0.136:8080");
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -276,14 +277,17 @@ public class MainActivity extends AppCompatActivity {
                                         dialog.dismiss();
                                         finish();
                                     }
-                                }).setNegativeButton("권한 설정", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                        .setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-                                getApplicationContext().startActivity(intent);
-                            }
-                        }).setCancelable(false).show();
+                                }
+//                                )
+//                                .setNegativeButton("권한 설정", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                                        .setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+//                                getApplicationContext().startActivity(intent);
+//                            }
+//                        }
+                        ).setCancelable(false).show();
                         return;
                     }
                 }
@@ -296,51 +300,51 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode)
-        {
+        Handler mHandler = new Handler();
+
+        switch (requestCode) {
             case FILECHOOSER_NORMAL_REQ_CODE:
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     if (filePathCallbackNormal == null) return;
-                    Uri result = (data == null || resultCode != RESULT_OK) ? null : data.getData();
+                    Uri result = data == null ? null : data.getData();
                     filePathCallbackNormal.onReceiveValue(result);
                     filePathCallbackNormal = null;
+                    mHandler.postDelayed(new Runnable()  {
+                        public void run() {
+                            mWebView.loadUrl("javascript:fileupload()");
+                        }
+                    }, 100); // 1.0초후
                 }
                 break;
             case FILECHOOSER_LOLLIPOP_REQ_CODE:
-                if (resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     if (filePathCallbackLollipop == null) return;
                     if (data == null)
                         data = new Intent();
                     if (data.getData() == null)
                         data.setData(cameraImageUri);
-
-                    filePathCallbackLollipop.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
-                    filePathCallbackLollipop = null;
-                }
-                else
-                {
-                    if (filePathCallbackLollipop != null)
-                    {
+                        filePathCallbackLollipop.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+                        filePathCallbackLollipop = null;
+                        mHandler.postDelayed(new Runnable()  {
+                            public void run() {
+                                mWebView.loadUrl("javascript:fileupload()");
+                            }
+                        }, 100); // 1.0초후
+                } else {
+                    if (filePathCallbackLollipop != null) {
                         filePathCallbackLollipop.onReceiveValue(null);
                         filePathCallbackLollipop = null;
                     }
-
-                    if (filePathCallbackNormal != null)
-                    {
+                    if (filePathCallbackNormal != null) {
                         filePathCallbackNormal.onReceiveValue(null);
                         filePathCallbackNormal = null;
                     }
                 }
                 break;
             default:
-
                 break;
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
