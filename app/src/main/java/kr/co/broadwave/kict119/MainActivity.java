@@ -118,6 +118,17 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        webSettings.setBuiltInZoomControls(true);
+
+//        webSettings.setBuiltInZoomControls(true);
+//        webSettings.setSupportZoom(true);
+//        webSettings.setLoadWithOverviewMode(true);
+//        webSettings.setUseWideViewPort(true);
+
         // 카메라 권한얻기
         String permission = Manifest.permission.CAMERA;
         int grant = ContextCompat.checkSelfPermission(this, permission);
