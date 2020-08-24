@@ -57,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //        Log.i(this.getClass().getName(),mWebView.getUrl()); //로그찍기
-//        if (mWebView.getUrl().equals("https://kict119.broadwave.co.kr/")) {  //현재접속되있는 페이지의 url을 가져온다.
-        if (mWebView.getUrl().equals("http://192.168.0.145:8080/")) {  //현재접속되있는 페이지의 url을 가져온다.
+        if (mWebView.getUrl().equals("https://kict119.broadwave.co.kr/")) {  //현재접속되있는 페이지의 url을 가져온다.
             backPressCloseHandler.onBackPressed();
         }else{
             mWebView.goBack();
@@ -253,8 +252,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
         });
 
-//        mWebView.loadUrl("https://kict119.broadwave.co.kr/");
-        mWebView.loadUrl("http://192.168.0.145:8080/");
+        mWebView.loadUrl("https://kict119.broadwave.co.kr/");
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -337,13 +335,11 @@ public class MainActivity extends AppCompatActivity {
                         data.setData(cameraImageUri);
                         filePathCallbackLollipop.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
                         filePathCallbackLollipop = null;
-
                         mHandler.postDelayed(new Runnable()  {
                             public void run() {
                                 mWebView.loadUrl("javascript:fileupload()");
                             }
                         }, 100); // 1.0초후
-
                 } else {
                     if (filePathCallbackLollipop != null) {
                         filePathCallbackLollipop.onReceiveValue(null);
